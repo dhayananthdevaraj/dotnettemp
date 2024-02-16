@@ -29,12 +29,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddDefaultTokenProviders();
 // Adding Authentication  
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<EventService>();
-builder.Services.AddScoped<PlayerService>();
-builder.Services.AddScoped<RefereeService>();
-builder.Services.AddScoped<ScheduleService>();
-builder.Services.AddScoped<TeamService>();
-builder.Services.AddScoped<VenueService>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<FDRequestService>();
+builder.Services.AddScoped<FixedDepositService>();
+builder.Services.AddScoped<ReviewService>();
+builder.Services.AddScoped<TransactionService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -105,3 +104,51 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
+
+// Commands to Run the Project:
+// cd dotnetapp
+// Select the dotnet project folder
+
+// dotnet restore
+// This command will restore all the required packages to run the application.
+
+// dotnet run
+// To run the application in port 8080 (The settings preloaded click 8080 Port to View)
+
+// dotnet build
+// To build and check for errors
+
+// dotnet clean
+// If the same error persists clean the project and build again
+
+// dotnet add package package_name --version 6.0
+// Any package if required you can install by the above command. The package that you are installing should support .Net 6.0 version.
+
+
+
+// To work with Entity Framework Core:
+
+// Install EF using the following commands
+
+// :
+
+//  dotnet new tool-manifest
+
+ 
+
+// dotnet tool install --local dotnet-ef --version 6.0.6
+
+ 
+
+// dotnet dotnet-ef --To check the EF installed or not
+
+
+
+// dotnet dotnet-ef migrations add "InitialSetup" --command to setup the initial creation of tables mentioned in DBContext
+
+ 
+
+// dotnet dotnet-ef database update --command to update the database

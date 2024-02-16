@@ -13,6 +13,6 @@ namespace dotnetapp.Models
         public DateTime StartDate { get; set; }
 
         // Navigation property representing the user associated with this fixed deposit
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

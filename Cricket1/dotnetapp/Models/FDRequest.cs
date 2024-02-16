@@ -9,6 +9,6 @@ namespace dotnetapp.Models
         // Additional properties as needed
 
         // Navigation property
-        public FixedDeposit FixedDeposit { get; set; }
+        public FixedDeposit? FixedDeposit { get; set; }
     }
 }

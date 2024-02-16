@@ -13,6 +13,6 @@ namespace dotnetapp.Models
         // Additional properties as needed
 
         // Navigation property
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

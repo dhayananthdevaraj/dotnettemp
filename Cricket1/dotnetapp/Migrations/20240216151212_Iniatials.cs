@@ -4,7 +4,7 @@
 
 namespace dotnetapp.Migrations
 {
-    public partial class initirdfgalsswx : Migration
+    public partial class Iniatials : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

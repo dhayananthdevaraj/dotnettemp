@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace dotnetapp.Migrations
 {
-    public partial class initirdfgalsw : Migration
+    public partial class Iniatial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -50,51 +50,6 @@ namespace dotnetapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Events",
-                columns: table => new
-                {
-                    EventId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EventImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Events", x => x.EventId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Referees",
-                columns: table => new
-                {
-                    RefereeID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RefereeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NoOfMatches = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Referees", x => x.RefereeID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Teams",
-                columns: table => new
-                {
-                    TeamId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TeamName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    teamDescription = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teams", x => x.TeamId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -109,22 +64,6 @@ namespace dotnetapp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Venues",
-                columns: table => new
-                {
-                    VenueId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    VenueName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VenueImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VenueDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VenueLocation = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Venues", x => x.VenueId);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,82 +173,117 @@ namespace dotnetapp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Players",
+                name: "Accounts",
                 columns: table => new
                 {
-                    PlayerId = table.Column<int>(type: "int", nullable: false)
+                    AccountId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PlayerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BattingStyle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    BowlingStyle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalMatchesPlayed = table.Column<int>(type: "int", nullable: false),
-                    TotalRunsScored = table.Column<int>(type: "int", nullable: false),
-                    TotalWicketsTaken = table.Column<int>(type: "int", nullable: false),
-                    TotalCatches = table.Column<int>(type: "int", nullable: false),
-                    TeamId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    AccountType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Players", x => x.PlayerId);
+                    table.PrimaryKey("PK_Accounts", x => x.AccountId);
                     table.ForeignKey(
-                        name: "FK_Players_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
-                        principalColumn: "TeamId",
+                        name: "FK_Accounts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Schedules",
+                name: "FixedDeposits",
                 columns: table => new
                 {
-                    ScheduleId = table.Column<int>(type: "int", nullable: false)
+                    FixedDepositId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    MatchDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EventId = table.Column<int>(type: "int", nullable: false),
-                    VenueId = table.Column<int>(type: "int", nullable: false),
-                    RefereeId = table.Column<int>(type: "int", nullable: false),
-                    Team1Id = table.Column<int>(type: "int", nullable: false),
-                    Team2Id = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TenureMonths = table.Column<int>(type: "int", nullable: false),
+                    InterestRate = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedules", x => x.ScheduleId);
+                    table.PrimaryKey("PK_FixedDeposits", x => x.FixedDepositId);
                     table.ForeignKey(
-                        name: "FK_Schedules_Events_EventId",
-                        column: x => x.EventId,
-                        principalTable: "Events",
-                        principalColumn: "EventId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Referees_RefereeId",
-                        column: x => x.RefereeId,
-                        principalTable: "Referees",
-                        principalColumn: "RefereeID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Teams_Team1Id",
-                        column: x => x.Team1Id,
-                        principalTable: "Teams",
-                        principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Teams_Team2Id",
-                        column: x => x.Team2Id,
-                        principalTable: "Teams",
-                        principalColumn: "TeamId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Schedules_Venues_VenueId",
-                        column: x => x.VenueId,
-                        principalTable: "Venues",
-                        principalColumn: "VenueId",
+                        name: "FK_FixedDeposits_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Reviews",
+                columns: table => new
+                {
+                    ReviewId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    ReviewText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DatePosted = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reviews", x => x.ReviewId);
+                    table.ForeignKey(
+                        name: "FK_Reviews_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    TransactionId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AccountId = table.Column<long>(type: "bigint", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
+                    table.ForeignKey(
+                        name: "FK_Transactions_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "FDRequests",
+                columns: table => new
+                {
+                    FDRequestId = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FixedDepositId = table.Column<long>(type: "bigint", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FDRequests", x => x.FDRequestId);
+                    table.ForeignKey(
+                        name: "FK_FDRequests_FixedDeposits_FixedDepositId",
+                        column: x => x.FixedDepositId,
+                        principalTable: "FixedDeposits",
+                        principalColumn: "FixedDepositId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Accounts_UserId",
+                table: "Accounts",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -351,34 +325,24 @@ namespace dotnetapp.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Players_TeamId",
-                table: "Players",
-                column: "TeamId");
+                name: "IX_FDRequests_FixedDepositId",
+                table: "FDRequests",
+                column: "FixedDepositId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_EventId",
-                table: "Schedules",
-                column: "EventId");
+                name: "IX_FixedDeposits_UserId",
+                table: "FixedDeposits",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_RefereeId",
-                table: "Schedules",
-                column: "RefereeId");
+                name: "IX_Reviews_UserId",
+                table: "Reviews",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Schedules_Team1Id",
-                table: "Schedules",
-                column: "Team1Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Schedules_Team2Id",
-                table: "Schedules",
-                column: "Team2Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Schedules_VenueId",
-                table: "Schedules",
-                column: "VenueId");
+                name: "IX_Transactions_AccountId",
+                table: "Transactions",
+                column: "AccountId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -399,13 +363,13 @@ namespace dotnetapp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Players");
+                name: "FDRequests");
 
             migrationBuilder.DropTable(
-                name: "Schedules");
+                name: "Reviews");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -414,16 +378,13 @@ namespace dotnetapp.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Events");
+                name: "FixedDeposits");
 
             migrationBuilder.DropTable(
-                name: "Referees");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "Teams");
-
-            migrationBuilder.DropTable(
-                name: "Venues");
+                name: "Users");
         }
     }
 }

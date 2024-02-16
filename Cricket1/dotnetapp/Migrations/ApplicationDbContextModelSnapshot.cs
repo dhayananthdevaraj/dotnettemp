@@ -22,6 +22,31 @@ namespace dotnetapp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("dotnetapp.Models.Account", b =>
+                {
+                    b.Property<long>("AccountId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("AccountId"), 1L, 1);
+
+                    b.Property<string>("AccountType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("AccountId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("dotnetapp.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -91,173 +116,112 @@ namespace dotnetapp.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Event", b =>
+            modelBuilder.Entity("dotnetapp.Models.FDRequest", b =>
                 {
-                    b.Property<int>("EventId")
+                    b.Property<long>("FDRequestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EventId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FDRequestId"), 1L, 1);
 
-                    b.Property<string>("Description")
+                    b.Property<long>("FixedDepositId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                    b.HasKey("FDRequestId");
 
-                    b.Property<string>("EventImageURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasIndex("FixedDepositId");
 
-                    b.Property<string>("EventName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.ToTable("FDRequests");
+                });
+
+            modelBuilder.Entity("dotnetapp.Models.FixedDeposit", b =>
+                {
+                    b.Property<long>("FixedDepositId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("FixedDepositId"), 1L, 1);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("InterestRate")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("EventId");
+                    b.Property<int>("TenureMonths")
+                        .HasColumnType("int");
 
-                    b.ToTable("Events");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("FixedDepositId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("FixedDeposits");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Player", b =>
+            modelBuilder.Entity("dotnetapp.Models.Review", b =>
                 {
-                    b.Property<int>("PlayerId")
+                    b.Property<long>("ReviewId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayerId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ReviewId"), 1L, 1);
 
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<string>("BattingStyle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BowlingStyle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
+                    b.Property<DateTime>("DatePosted")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PlayerName")
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReviewText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
+                    b.HasKey("ReviewId");
 
-                    b.Property<int>("TotalCatches")
-                        .HasColumnType("int");
+                    b.HasIndex("UserId");
 
-                    b.Property<int>("TotalMatchesPlayed")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalRunsScored")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalWicketsTaken")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlayerId");
-
-                    b.HasIndex("TeamId");
-
-                    b.ToTable("Players");
+                    b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Referee", b =>
+            modelBuilder.Entity("dotnetapp.Models.Transaction", b =>
                 {
-                    b.Property<int>("RefereeID")
+                    b.Property<long>("TransactionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RefereeID"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("TransactionId"), 1L, 1);
 
-                    b.Property<int>("NoOfMatches")
-                        .HasColumnType("int");
+                    b.Property<long>("AccountId")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("RefereeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("RefereeID");
-
-                    b.ToTable("Referees");
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.Schedule", b =>
-                {
-                    b.Property<int>("ScheduleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduleId"), 1L, 1);
-
-                    b.Property<int>("EventId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("MatchDateTime")
+                    b.Property<DateTime>("Timestamp")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RefereeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Team1Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Team2Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VenueId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ScheduleId");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("RefereeId");
-
-                    b.HasIndex("Team1Id");
-
-                    b.HasIndex("Team2Id");
-
-                    b.HasIndex("VenueId");
-
-                    b.ToTable("Schedules");
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.Team", b =>
-                {
-                    b.Property<int>("TeamId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"), 1L, 1);
-
-                    b.Property<string>("TeamName")
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("teamDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("TransactionId");
 
-                    b.HasKey("TeamId");
+                    b.HasIndex("AccountId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("dotnetapp.Models.User", b =>
@@ -291,35 +255,6 @@ namespace dotnetapp.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.Venue", b =>
-                {
-                    b.Property<int>("VenueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VenueId"), 1L, 1);
-
-                    b.Property<string>("VenueDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VenueImageURL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VenueLocation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("VenueName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("VenueId");
-
-                    b.ToTable("Venues");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -455,58 +390,59 @@ namespace dotnetapp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Player", b =>
+            modelBuilder.Entity("dotnetapp.Models.Account", b =>
                 {
-                    b.HasOne("dotnetapp.Models.Team", "Team")
-                        .WithMany("Players")
-                        .HasForeignKey("TeamId")
+                    b.HasOne("dotnetapp.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Team");
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("dotnetapp.Models.Schedule", b =>
+            modelBuilder.Entity("dotnetapp.Models.FDRequest", b =>
                 {
-                    b.HasOne("dotnetapp.Models.Event", "Event")
-                        .WithMany("Schedules")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("dotnetapp.Models.Referee", "Referee")
-                        .WithMany("Schedules")
-                        .HasForeignKey("RefereeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("dotnetapp.Models.Team", "Team1")
+                    b.HasOne("dotnetapp.Models.FixedDeposit", "FixedDeposit")
                         .WithMany()
-                        .HasForeignKey("Team1Id")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("FixedDepositId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("dotnetapp.Models.Team", "Team2")
+                    b.Navigation("FixedDeposit");
+                });
+
+            modelBuilder.Entity("dotnetapp.Models.FixedDeposit", b =>
+                {
+                    b.HasOne("dotnetapp.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("Team2Id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("dotnetapp.Models.Venue", "Venue")
-                        .WithMany("Schedules")
-                        .HasForeignKey("VenueId")
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("dotnetapp.Models.Review", b =>
+                {
+                    b.HasOne("dotnetapp.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Event");
+                    b.Navigation("User");
+                });
 
-                    b.Navigation("Referee");
+            modelBuilder.Entity("dotnetapp.Models.Transaction", b =>
+                {
+                    b.HasOne("dotnetapp.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Team1");
-
-                    b.Navigation("Team2");
-
-                    b.Navigation("Venue");
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -558,26 +494,6 @@ namespace dotnetapp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.Event", b =>
-                {
-                    b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.Referee", b =>
-                {
-                    b.Navigation("Schedules");
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.Team", b =>
-                {
-                    b.Navigation("Players");
-                });
-
-            modelBuilder.Entity("dotnetapp.Models.Venue", b =>
-                {
-                    b.Navigation("Schedules");
                 });
 #pragma warning restore 612, 618
         }
