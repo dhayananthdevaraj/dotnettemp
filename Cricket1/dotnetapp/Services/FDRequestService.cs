@@ -44,60 +44,54 @@ namespace dotnetapp.Services
             }
         }
 
-        // Additional methods for update, delete, or other business logic
-// FDRequestService.cs
-// ... (existing code)
-
-public async Task<bool> UpdateFDRequest(long requestId, FDRequest updatedFDRequest)
-{
-    try
-    {
-        var existingFDRequest = await _context.FDRequests
-            .FirstOrDefaultAsync(fr => fr.FDRequestId == requestId);
-
-        if (existingFDRequest == null)
+        public async Task<bool> UpdateFDRequest(long requestId, FDRequest fdRequest)
         {
-            return false; // FDRequest not found
+            try
+            {
+                var existingFDRequest = await _context.FDRequests.FindAsync(requestId);
+
+                if (existingFDRequest != null)
+                {
+                    // Update properties of existingFDRequest with the new values from fdRequest
+                    existingFDRequest.FixedDepositId = fdRequest.FixedDepositId;
+                    existingFDRequest.Status = fdRequest.Status;
+
+                    // Save changes to the database
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                // Handle exception as needed
+                return false;
+            }
         }
 
-        // Update properties of existingFDRequest with properties of updatedFDRequest
-        existingFDRequest.Property1 = updatedFDRequest.Property1;
-        existingFDRequest.Property2 = updatedFDRequest.Property2;
-        // ... (update other properties as needed)
-
-        await _context.SaveChangesAsync();
-        return true;
-    }
-    catch (Exception)
-    {
-        // Handle exception as needed
-        return false;
-    }
-}
-
-public async Task<bool> DeleteFDRequest(long requestId)
-{
-    try
-    {
-        var fdRequest = await _context.FDRequests
-            .FirstOrDefaultAsync(fr => fr.FDRequestId == requestId);
-
-        if (fdRequest == null)
+        public async Task<bool> DeleteFDRequest(long requestId)
         {
-            return false; // FDRequest not found
+            try
+            {
+                var fdRequest = await _context.FDRequests.FindAsync(requestId);
+
+                if (fdRequest != null)
+                {
+                    _context.FDRequests.Remove(fdRequest);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                // Handle exception as needed
+                return false;
+            }
         }
 
-        _context.FDRequests.Remove(fdRequest);
-        await _context.SaveChangesAsync();
-        return true;
-    }
-    catch (Exception)
-    {
-        // Handle exception as needed
-        return false;
-    }
-}
-
-
+        // Additional methods for other business logic
     }
 }

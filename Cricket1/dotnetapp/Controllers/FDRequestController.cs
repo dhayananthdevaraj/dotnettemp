@@ -62,11 +62,11 @@ namespace dotnetapp.Controllers
         }
 
         [HttpPut("{requestId}")]
-        public async Task<ActionResult> UpdateFDRequest(long requestId, [FromBody] FDRequest updatedFDRequest)
+        public async Task<ActionResult> UpdateFDRequest(long requestId, [FromBody] FDRequest fdRequest)
         {
             try
             {
-                var success = await _fdRequestService.UpdateFDRequest(requestId, updatedFDRequest);
+                var success = await _fdRequestService.UpdateFDRequest(requestId, fdRequest);
 
                 if (success)
                 {
@@ -74,7 +74,7 @@ namespace dotnetapp.Controllers
                 }
                 else
                 {
-                    return NotFound(new { message = "FDRequest not found" });
+                    return NotFound(new { message = $"FDRequest with ID {requestId} not found" });
                 }
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace dotnetapp.Controllers
                 }
                 else
                 {
-                    return NotFound(new { message = "FDRequest not found" });
+                    return NotFound(new { message = $"FDRequest with ID {requestId} not found" });
                 }
             }
             catch (Exception ex)
