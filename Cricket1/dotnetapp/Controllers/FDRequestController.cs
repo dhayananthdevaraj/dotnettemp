@@ -61,7 +61,48 @@ namespace dotnetapp.Controllers
             }
         }
 
-        // Additional methods for update, delete, or other actions
+        [HttpPut("{requestId}")]
+        public async Task<ActionResult> UpdateFDRequest(long requestId, [FromBody] FDRequest updatedFDRequest)
+        {
+            try
+            {
+                var success = await _fdRequestService.UpdateFDRequest(requestId, updatedFDRequest);
 
+                if (success)
+                {
+                    return Ok(new { message = "FDRequest updated successfully" });
+                }
+                else
+                {
+                    return NotFound(new { message = "FDRequest not found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{requestId}")]
+        public async Task<ActionResult> DeleteFDRequest(long requestId)
+        {
+            try
+            {
+                var success = await _fdRequestService.DeleteFDRequest(requestId);
+
+                if (success)
+                {
+                    return Ok(new { message = "FDRequest deleted successfully" });
+                }
+                else
+                {
+                    return NotFound(new { message = "FDRequest not found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = ex.Message });
+            }
+        }
     }
 }
