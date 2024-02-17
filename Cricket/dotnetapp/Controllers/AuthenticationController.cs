@@ -51,7 +51,7 @@ namespace dotnetapp.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(new { Status = "Error", Message = "Invalid Payload" });
                     Console.WriteLine("model",model);
-                if (model.UserRole == "Admin" || model.UserRole == "InventoryManager")
+                if (model.UserRole == "Admin" || model.UserRole == "Oraganiser")
                 {
                     var (status, message) = await _authService.Registeration(model, model.UserRole);
                     if (status == 0)
