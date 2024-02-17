@@ -85,3 +85,14 @@ namespace dotnetapp.Controllers
         }
     }
 }
+
+
+
+// [Thursday 14:44] Dhayananth D
+// git remote add origin https://github.com/dhayananthdevaraj/cricketdotnet.git
+
+// git branch -M main
+
+// git push -u origin main
+// dhayananthdevaraj/cricketdotnet
+// Contribute to dhayananthdevaraj/cricketdotnet development by creating an account on GitHub.
