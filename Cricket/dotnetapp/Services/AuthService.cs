@@ -60,7 +60,7 @@ namespace dotnetapp.Services
             //var user1 = await context.Find(model.Email);
  
             var users = await context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
- 
+           Console.WriteLine("users  -------------------->"+users.UserRole);
            
  
             Console.WriteLine(string.Join(", ", user));
@@ -79,7 +79,8 @@ namespace dotnetapp.Services
                new Claim(ClaimTypes.Name, user.UserName),
                new Claim(ClaimTypes.NameIdentifier, users.UserId.ToString()),
                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
- 
+               new Claim(ClaimTypes.Role, users.UserRole) // Add role claim
+
             };
  
             foreach (var userRole in userRoles)
